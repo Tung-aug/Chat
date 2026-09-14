@@ -1,0 +1,364 @@
+/* Tính padding + border vào width/height để layout không bị vỡ */
+*{box-sizing:border-box}
+
+/* Font chữ mặc định cho toàn trang */
+body{
+  font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+}
+
+/*
+CHATBOT WINDOW
+*/
+
+.chatbot{
+  position:fixed;
+  bottom:100px;
+  right:24px;
+  width:360px;
+  height:520px;
+  background:rgba(11,15,25,.92);
+  border:1px solid rgba(255,255,255,.10);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+
+  border-radius:20px;
+  box-shadow:
+    0 22px 60px rgba(0,0,0,.55),
+    0 8px 22px rgba(0,0,0,.35);
+
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+
+  transform-origin:bottom right;
+  transition:all .35s ease;
+}
+
+/* Trạng thái ẩn chatbot */
+.chatbot.hidden{
+  opacity:0;
+  pointer-events:none;
+  transform:scale(.7) translateY(20px);
+}
+
+/* Trạng thái hiện chatbot */
+.chatbot.show{
+  opacity:1;
+  pointer-events:auto;
+  transform:scale(1) translateY(0);
+}
+
+/*HEADER */
+.chatbot-header{
+  padding:16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+
+  background:linear-gradient(135deg,#e50914,#b00710);
+  color:#fff;
+  font-weight:600;
+  font-size:16px;
+
+  border-bottom:1px solid rgba(255,255,255,.10);
+}
+
+/* Icon / emoji trong header */
+.chatbot-header span{font-size:20px}
+
+/* header buttons */
+.chatbot-close{
+  background:transparent;
+  border:none;
+  color:#fff;
+  cursor:pointer;
+  padding:4px 8px;
+  border-radius:8px;
+  transition:.2s;
+}
+
+.chatbot-reset{
+  background:transparent;
+  border:none;
+  color:#fff;
+  cursor:pointer;
+  padding:4px 8px;
+  border-radius:8px;
+  transition:.2s;
+}
+
+.chatbot-maximize{
+  background:transparent;
+  border:none;
+  color:#fff;
+  cursor:pointer;
+  padding:4px 8px;
+  border-radius:8px;
+  transition:.2s;
+}
+.chatbot-close{font-size:20px}
+
+.chatbot-reset{font-size:18px}
+
+.chatbot-maximize{font-size:18px}
+
+.chatbot-close:hover{
+  background:rgba(255,255,255,.15);
+}
+
+.chatbot-reset:hover{
+  background:rgba(255,255,255,.15);
+}
+
+.chatbot-maximize:hover{
+  background:rgba(255,255,255,.15);
+}
+
+/*MESSAGES*/
+.chatbot-messages{
+  flex:1;
+  padding:16px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  
+  scrollbar-width: thin;
+  scrollbar-color: #ffff rgba(255,255,255,0.08);
+
+  background:
+    radial-gradient(circle at top,#141a2a,#0b0f19);
+}
+
+
+.message{
+  max-width:80%;
+  padding:10px 14px;
+  border-radius:14px;
+  font-size:14px;
+  line-height:1.4;
+  animation:fadeIn .3s ease;
+  word-break:break-word;
+}
+
+.bot{
+  background:#1e2538;
+  color:#e4e6eb;
+  align-self:flex-start;
+  border-top-left-radius:4px;
+}
+
+.user{
+  background:linear-gradient(135deg,#e50914,#ff4d4d);
+  color:#fff;
+  align-self:flex-end;
+  border-top-right-radius:4px;
+}
+
+/*INPUT*/
+.chatbot-input{
+  display:flex;
+  padding:12px;
+  background:rgba(11,15,25,.92);
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.chatbot-input textarea{
+  flex:1;
+  background:#141a2a;
+  border:none;
+  border-radius:12px;
+  padding:10px 14px;
+  color:#fff;
+  font-size:14px;
+  outline:none;
+  resize:none;
+  line-height:1.4;
+}
+
+.chatbot-input textarea::placeholder{
+  color:rgba(255,255,255,.55);
+}
+
+.chatbot-input button{
+  margin-left:10px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,#e50914,#ff4d4d);
+  color:#fff; /* chữ Gửi trắng */
+  padding:0 18px;
+  cursor:pointer;
+  font-weight:600;
+  transition:.2s;
+}
+
+.chatbot-input button:hover{opacity:.9}
+.chatbot-input button:active{transform:scale(.97)}
+
+/*TOGGLE*/
+.chatbot-toggle{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+
+  background:linear-gradient(135deg,#e50914,#ff4d4d);
+  box-shadow:0 12px 30px rgba(0,0,0,.4);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:26px;
+  cursor:pointer;
+  z-index:999;
+  transition:.25s;
+}
+.chatbot-toggle:hover{opacity:.9}
+
+/*FULLSCREEN*/
+.chatbot.fullscreen{
+  width:100vw;
+  height:100vh;
+  right:0;
+  bottom:0;
+  border-radius:0;
+}
+
+/* Ẩn bubble khi fullscreen – KHÔNG cần thêm body */
+body.chatbot-fullscreen .chatbot-toggle{
+  opacity:0;
+  pointer-events:none;
+  transform:scale(.85);
+}
+
+
+/* QUICK REPLIES*/
+.quick-replies{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:6px;
+}
+
+/* Nút gợi ý nhanh */
+.quick-replies button{
+  background:#1e2538;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:14px;
+  padding:6px 12px;
+  font-size:13px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.quick-replies button:hover{
+  background:#203a43;
+}
+
+/* gắn mốc cho toggle */
+.chatbot-toggle{
+  position:fixed;
+}
+
+.chatbot-toggle::after{
+  content:"💬 Mình là trợ lý Cinema Bot – có thể giúp bạn";
+  position:absolute;
+  right:78px;
+  top:50%;
+  transform:translateY(-50%);
+
+  max-width:280px;
+  padding:10px 14px;
+
+  /* nền sáng hơn để dễ đọc */
+  background:#ffffff;
+  color:#111827;                
+
+  font-size:13px;
+  font-weight:600;
+  line-height:1.3;
+
+  border-radius:999px;
+  box-shadow:
+    0 16px 40px rgba(0,0,0,.25),
+    0 2px 8px rgba(0,0,0,.12);
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+
+  pointer-events:none;
+  opacity:1;
+
+  transition:opacity .25s ease, transform .25s ease;
+}
+
+/* mũi tên nhỏ */
+.chatbot-toggle::before{
+  content:"";
+  position:absolute;
+  right:66px;
+  top:50%;
+  transform:translateY(-50%) rotate(45deg);
+
+  width:10px;
+  height:10px;
+  background:#ffffff;
+  box-shadow:2px 2px 6px rgba(0,0,0,.15);
+
+  pointer-events:none;
+  opacity:1;
+
+  transition:opacity .25s ease;
+}
+
+/* trạng thái ẨN khi chatbot mở */
+.chatbot-toggle.hint-hidden::after{
+  opacity:0;
+  transform:translateY(-50%) translateX(6px);
+}
+.chatbot-toggle.hint-hidden::before{
+  opacity:0;
+  transform:translateY(-50%) translateX(6px);
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(4px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@media (max-width: 768px){
+  .chatbot{
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* mobile: đưa thông báo lên trên */
+@media (max-width:480px){
+  .chatbot-toggle::after{
+    right:auto;
+    left:50%;
+    top:auto;
+    bottom:74px;
+    transform:translateX(-50%);
+    max-width:300px;
+    white-space:normal;
+    text-align:center;
+  }
+  .chatbot-toggle::before{
+    right:auto;
+    left:50%;
+    top:auto;
+    bottom:66px;
+    transform:translateX(-50%) rotate(45deg);
+  }
+}
+
+
+
+

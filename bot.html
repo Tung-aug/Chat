@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chatbot Đặt Vé Xem Phim</title>
+  <link rel="stylesheet" href="botstyle.css">
+  <script src="chatbot.js"></script>
+
+</head>
+<body>
+
+<!-- Nút mở/đóng chatbot -->
+<div class="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+
+<!-- Khung chatbot -->
+<div class="chatbot hidden" id="chatbot">
+  <!-- Header -->
+  <div class="chatbot-header">
+    <span>🎬</span> Cinema Bot
+    <div>
+      <button class="chatbot-maximize" id="maximizeBtn" onclick="toggleMaximize()">⛶</button>
+      <button class="chatbot-reset" onclick="resetChatbot()">↺</button>
+      <button class="chatbot-close" onclick="toggleChatbot()">✕</button>
+    </div>
+  </div>
+
+  <!-- Danh sách tin nhắn -->
+  <div class="chatbot-messages" id="messages">
+    <div class="message bot">
+      Xin chào 👋<br/>
+      Mình là <b>Cinema Bot</b> – trợ lý đặt vé xem phim.<br/>
+      Bạn muốn xem phim gì hôm nay?
+    </div>
+  </div>
+
+  <!-- Khu nhập -->
+  <div class="chatbot-input">
+    <textarea
+      id="userInput"
+      placeholder="Tên phim, rạp, suất chiếu..."
+      rows="1"
+      onkeydown="handleEnter(event)"
+      oninput="autoResize(this)"></textarea>
+    <button onclick="sendMessage()">Gửi</button>
+  </div>
+</div>
+
+
+</body>
+</html>
