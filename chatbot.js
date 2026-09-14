@@ -2101,7 +2101,7 @@ Xử lý intent "xem lịch chiếu" từ câu người dùng
 async function handleShowtimeIntentFromText(originalText) {
   const text = (originalText || "").trim();
 
-  // ✅ Luồng mới: show info trước, rồi hỏi có muốn xem lịch chiếu không
+  // Luồng mới: show info trước, rồi hỏi có muốn xem lịch chiếu không
   const loading = appendMessage("<i>Đang xác định phim bạn muốn tra lịch chiếu...</i>", "bot");
 
   try {
@@ -2115,7 +2115,7 @@ async function handleShowtimeIntentFromText(originalText) {
       appState.selectedMovie = movies[0];
       appendMessage(formatMovieDetail(movies[0]), "bot");
 
-      // ✅ KHÔNG tự hiện rạp nữa
+      // KHÔNG tự hiện rạp nữa
       appState.pendingShowtimes = true;
       askWantShowtimes();
       return true;
@@ -2591,7 +2591,7 @@ async function sendQuickMessage(text) {
         appState.pendingShowtimes = false;
         const lastTitle = appState.selectedMovie?.title || "";
         appState.selectedMovie = null;
-        appendMessage(`Oke ✅ Khi nào cần lịch chiếu cho <b>${escapeHtml(lastTitle)}</b> bạn nhắn lại nhé.`, "bot");
+        appendMessage(`Oke Khi nào cần lịch chiếu cho <b>${escapeHtml(lastTitle)}</b> bạn nhắn lại nhé.`, "bot");
         scheduleQuickReplies(["Phim đang chiếu hôm nay", "Rạp chiếu phim", "Giá vé"]);
         return;
       }
@@ -2607,7 +2607,7 @@ async function sendQuickMessage(text) {
 
 
       //  xử lý nút xác nhận
-      if (normalizeText(text) === normalizeText("✅ Xem lịch chiếu")) {
+      if (normalizeText(text) === normalizeText("Xem lịch chiếu")) {
         loadingMsg.remove();
         if (!appState.selectedMovie) {
           appendMessage("❓ Bạn muốn xem lịch chiếu phim nào? Hãy nhập tên phim trước nhé.", "bot");
@@ -2929,7 +2929,7 @@ function startAutoRefresh() {
   invalidateAndWarmup();
 
   // sau đó refresh định kỳ
-  autoRefreshTimer = setInterval(invalidateAndWarmup, 90 * 1000); // ✅ 90s
+  autoRefreshTimer = setInterval(invalidateAndWarmup, 90 * 1000); //  90s
 }
 
 function stopAutoRefresh() {
